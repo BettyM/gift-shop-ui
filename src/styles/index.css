@@ -1,0 +1,36 @@
+:root {
+  --main-color: #2471A3;
+  --text-color: #777;
+  --text-color-light: #ccc;
+  --border-color: #eee;
+  --bg-color: #f9f9f9;
+  --neutral-color: #fff;
+}
+
+.dashboard-wrapper {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.header {
+  display: block;
+  width: 100%;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--main-color) !important;
+}
+
+.footer-container {
+  background: var(--main-color);
+  bottom: 0;
+  color: var(--neutral-color);
+  padding: 20px 0;
+  position: fixed;
+  text-align: center;
+  width: 100%
+}
+
+/* Material UI styles */
+.MuiCardMedia-img {
+  object-fit: scale-down !important;
+}
