@@ -1,32 +1,37 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch, shallowEqual } from 'react-redux'
+import { giftShopActions } from '../../store/actions'
 import {
+  Button,
   Card,
+  CardActions,
   CardActionArea,
   CardContent,
   CardMedia,
   Grid,
   Typography
 } from '@material-ui/core'
-import API from '../../services/API'
+import { AddShoppingCart } from '@material-ui/icons';
 
 const List = () => {
-  const [products, setProducts] = useState([])
+  const products = useSelector(state => (state.giftShopReducer && state.giftShopReducer.products), shallowEqual)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await API.getProducts()
-      setProducts(data)
+    if(!products || products.length <= 0) {
+      dispatch(giftShopActions.loadProducts())
     }
-    fetchData()
-  }, [])
+  }, [products, dispatch])
+
+  const addItemToCart = item => {
+    dispatch(giftShopActions.updateShoppingList(item))
+  }
   
-  console.log('products', products)
   return(
     <Grid container spacing={3} justify="center" alignItems="center">
-      {products.length > 0 && products.map(item => {
-        console.log('=>', item)
+      {products && products.length > 0 && products.map(item => {
         return(
-        <Grid item xs={4} sm={3}>
+        <Grid item xs={4} sm={3} key={item.name}>
           <Card key={item.id}>
             <CardActionArea>
               <CardMedia
@@ -41,12 +46,22 @@ const List = () => {
                   {item.name}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  {item.description.length > 100 ? (item.description.substring(0, 100) + '...') : item.description}
+                  {item.description.length > 100 ?
+                    (item.description.substring(0, 100) + '...') : item.description}
                 </Typography>
                 <Typography gutterBottom variant="h6" component="h3">
                   $ {item.price}
                 </Typography>
               </CardContent>
+              <CardActions>
+                <Button size="small"
+                  color="primary"
+                  onClick={() => addItemToCart(item)}
+                >
+                  <AddShoppingCart />
+                  Add to cart
+                </Button>
+              </CardActions>
             </CardActionArea>
           </Card>
         </Grid>

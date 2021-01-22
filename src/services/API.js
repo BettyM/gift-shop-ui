@@ -1,7 +1,7 @@
-import axios from 'axios'
+// import axios from 'axios'
 import getProductList from './ProductsMock';
 
-const apiURL = ''
+// const apiURL = ''
 
 async function getProducts() {
   try {
